@@ -1,0 +1,1283 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17120f" />
+    <title>NOIRÉ — Coffee, Slowly</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap");
+      :root {
+        --ink: #17120f;
+        --espresso: #2b1b14;
+        --cocoa: #5b3928;
+        --cream: #f2e9df;
+        --muted: #b8a79a;
+        --accent: #c49a72;
+        --line: rgba(242, 233, 223, 0.16);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Sans", sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+      }
+      .serif {
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+      }
+      .eyebrow {
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .wrap {
+        width: min(1180px, calc(100% - 48px));
+        margin: auto;
+      }
+      .nav {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 25px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        font-size: 1.05rem;
+        letter-spacing: 0.2em;
+        font-weight: 600;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        font-size: 0.8rem;
+        color: #ded0c4;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+      .nav-cta {
+        border: 1px solid #b99a80;
+        padding: 10px 17px;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+      }
+      .hero {
+        height: 200svh;
+        min-height: 1360px;
+        position: relative;
+        overflow: visible;
+        background: #211711;
+      }
+      .hero-sticky {
+        position: sticky;
+        top: 0;
+        height: max(100svh, 680px);
+        min-height: 680px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        background: #211711;
+      }
+      .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        background: #211711;
+      }
+      .hero-shade {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(16, 12, 10, 0.84) 0%,
+            rgba(16, 12, 10, 0.43) 52%,
+            rgba(16, 12, 10, 0.16) 100%
+          ),
+          linear-gradient(0deg, rgba(16, 12, 10, 0.62), transparent 45%);
+        pointer-events: none;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding-top: 70px;
+        max-width: 740px;
+      }
+      .hero h1 {
+        font-size: clamp(4rem, 10vw, 9rem);
+        line-height: 0.92;
+        letter-spacing: -0.055em;
+        margin: 24px 0;
+      }
+      .hero h1 em {
+        color: #d0a77e;
+        font-style: normal;
+      }
+      .hero p {
+        color: #d2c4b8;
+        line-height: 1.8;
+        max-width: 460px;
+        font-size: 1rem;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-top: 32px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 22px;
+        background: var(--accent);
+        color: #1c130e;
+        border: 1px solid var(--accent);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        transition: 0.25s;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #dfbd9c;
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--cream);
+        border-color: rgba(242, 233, 223, 0.5);
+      }
+      @keyframes scrollBounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(10px);
+        }
+      }
+      .scroll-note {
+        position: absolute;
+        z-index: 2;
+        right: 5%;
+        bottom: 42px;
+        writing-mode: vertical-rl;
+        letter-spacing: 0.18em;
+        font-size: 0.65rem;
+        color: #d2c4b8;
+        cursor: pointer;
+        animation: scrollBounce 2s ease-in-out infinite;
+        will-change: transform;
+        transition: color 0.3s ease;
+      }
+      .scroll-note:hover {
+        color: var(--accent);
+      }
+      .scroll-line {
+        display: inline-block;
+        width: 1px;
+        height: 50px;
+        background: var(--accent);
+        margin-top: 14px;
+        align-self: center;
+      }
+      section {
+        padding: 110px 0;
+        transition:
+          opacity 0.75s cubic-bezier(0.25, 1, 0.5, 1),
+          transform 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity, transform;
+      }
+      .hero {
+        padding: 0;
+        transition: opacity 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity;
+      }
+      .hero-sticky {
+        transition: opacity 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: opacity;
+      }
+      section.scrolled-past {
+        opacity: 0;
+        transform: translateY(-28px);
+        pointer-events: none;
+      }
+      section.hero.scrolled-past {
+        opacity: 0;
+        transform: none;
+      }
+      section.hero.scrolled-past .hero-sticky {
+        opacity: 0;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 30px;
+        margin-bottom: 48px;
+      }
+      .section-head h2 {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        line-height: 1;
+        margin: 14px 0 0;
+        letter-spacing: -0.04em;
+      }
+      .section-head p {
+        max-width: 360px;
+        color: var(--muted);
+        line-height: 1.8;
+        font-size: 0.9rem;
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8%;
+        align-items: center;
+      }
+      .about-image {
+        min-height: 570px;
+        position: relative;
+        background: url("https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=85")
+          center/cover;
+      }
+      .about-image:after {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 1px solid rgba(242, 233, 223, 0.35);
+      }
+      .image-label {
+        position: absolute;
+        bottom: 28px;
+        left: 28px;
+        z-index: 1;
+        background: rgba(23, 18, 15, 0.82);
+        padding: 14px 18px;
+        font-size: 0.7rem;
+        letter-spacing: 0.13em;
+      }
+      .about-copy h3 {
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.12;
+        margin: 18px 0 25px;
+      }
+      .about-copy p {
+        color: var(--muted);
+        line-height: 1.95;
+        font-size: 0.93rem;
+      }
+      .signature {
+        margin-top: 32px;
+        color: var(--accent);
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-style: italic;
+      }
+      .products {
+        background: #211813;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .product-card {
+        border: 1px solid var(--line);
+        background: #1a1410;
+        transition:
+          transform 0.3s,
+          border-color 0.3s;
+      }
+      .product-card:hover {
+        transform: translateY(-7px);
+        border-color: #8d674b;
+      }
+      .product-photo {
+        height: 320px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+      .product-photo:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          0deg,
+          rgba(15, 10, 8, 0.45),
+          transparent 60%
+        );
+      }
+      .product-info {
+        padding: 24px;
+      }
+      .product-info h3 {
+        font:
+          1.65rem "Playfair Display",
+          serif;
+        margin: 0 0 8px;
+      }
+      .product-info p {
+        font-size: 0.83rem;
+        line-height: 1.7;
+        color: var(--muted);
+        min-height: 55px;
+      }
+      .product-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 22px;
+        font-size: 0.8rem;
+      }
+      .price {
+        color: var(--accent);
+      }
+      .text-link {
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 5px;
+        color: #e8d5c3;
+      }
+      .highlights {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .highlight {
+        padding: 38px 32px 42px 0;
+      }
+      .highlight + .highlight {
+        border-left: 1px solid var(--line);
+        padding-left: 32px;
+      }
+      .highlight-num {
+        color: var(--accent);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+      }
+      .highlight h3 {
+        font:
+          1.7rem "Playfair Display",
+          serif;
+        margin: 26px 0 12px;
+      }
+      .highlight p {
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.8;
+        margin: 0;
+      }
+      .gallery {
+        padding-bottom: 120px;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr 1fr;
+        grid-template-rows: 260px 260px;
+        gap: 14px;
+      }
+      .gallery-item {
+        overflow: hidden;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+      }
+      .gallery-item:first-child {
+        grid-row: span 2;
+      }
+      .gallery-item:nth-child(4) {
+        grid-column: 2/4;
+      }
+      .gallery-item:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          0deg,
+          rgba(14, 10, 8, 0.5),
+          transparent 55%
+        );
+        transition: 0.3s;
+      }
+      .gallery-item:hover:after {
+        background: rgba(14, 10, 8, 0.12);
+      }
+      .gallery-caption {
+        position: absolute;
+        z-index: 1;
+        left: 20px;
+        bottom: 18px;
+        font:
+          1.2rem "Playfair Display",
+          serif;
+      }
+      .contact {
+        background: #2b1b14;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .contact:before {
+        content: "";
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        border: 1px solid rgba(196, 154, 114, 0.12);
+        border-radius: 50%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 0 0 70px rgba(196, 154, 114, 0.025),
+          0 0 0 140px rgba(196, 154, 114, 0.02);
+      }
+      .contact-inner {
+        position: relative;
+      }
+      .contact h2 {
+        font-size: clamp(3rem, 7vw, 6.5rem);
+        line-height: 0.98;
+        margin: 22px 0;
+      }
+      .contact p {
+        max-width: 510px;
+        margin: 0 auto 30px;
+        color: #d0bfb2;
+        line-height: 1.8;
+      }
+      .contact-details {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 38px;
+        font-size: 0.8rem;
+        color: #d0bfb2;
+      }
+      .contact-details span {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .creator {
+        background: #17120f;
+      }
+      .creator-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 55px;
+        align-items: center;
+        max-width: 850px;
+        margin: auto;
+      }
+      .portrait {
+        aspect-ratio: 4/5;
+        border: 1px dashed #94745d;
+        background: linear-gradient(145deg, #33231a, #1d1511);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #bba18d;
+        text-align: center;
+        padding: 25px;
+      }
+      .portrait .icon {
+        font-size: 3rem;
+        margin-bottom: 18px;
+        opacity: 0.75;
+      }
+      .portrait small {
+        letter-spacing: 0.14em;
+        font-size: 0.65rem;
+        line-height: 1.8;
+      }
+      .creator h2 {
+        font:
+          clamp(2.5rem, 5vw, 4rem) "Playfair Display",
+          serif;
+        margin: 12px 0;
+      }
+      .creator p {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .student-fields {
+        border-top: 1px solid var(--line);
+        margin-top: 25px;
+      }
+      .field {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.85rem;
+      }
+      .field span:first-child {
+        color: var(--muted);
+      }
+      .field span:last-child {
+        color: #f0dfd0;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 25px 0;
+        color: #9e8b7d;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 20px);
+        background: #f2e9df;
+        color: #20150f;
+        padding: 14px 20px;
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+        font-size: 0.85rem;
+        box-shadow: 0 10px 30px #0005;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .hero {
+        padding: 0;
+      }
+      @media (max-width: 760px) {
+        .wrap {
+          width: min(100% - 34px, 560px);
+        }
+        .nav {
+          padding: 18px 0;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero {
+          height: 200svh;
+          min-height: 1320px;
+        }
+        .hero h1 {
+          font-size: clamp(4rem, 17vw, 6.5rem);
+        }
+        .hero-video {
+          object-position: 58% center;
+        }
+        .section-head {
+          display: block;
+        }
+        .section-head p {
+          margin-top: 22px;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 35px;
+        }
+        .about-image {
+          min-height: 420px;
+          order: 2;
+        }
+        .product-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .product-photo {
+          height: 300px;
+        }
+        .highlights {
+          grid-template-columns: 1fr;
+        }
+        .highlight,
+        .highlight + .highlight {
+          padding: 28px 0;
+          border-left: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .highlight:last-child {
+          border-bottom: 0;
+        }
+        .highlight h3 {
+          margin: 15px 0 8px;
+        }
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 230px 190px 190px;
+        }
+        .gallery-item:first-child {
+          grid-row: span 2;
+        }
+        .gallery-item:nth-child(4) {
+          grid-column: 1/3;
+        }
+        .creator-grid {
+          grid-template-columns: 1fr;
+          gap: 28px;
+          max-width: 420px;
+        }
+        .portrait {
+          max-width: 270px;
+          margin: auto;
+          width: 100%;
+        }
+        .contact-details {
+          gap: 14px;
+          flex-direction: column;
+          align-items: center;
+        }
+        .footer-inner {
+          flex-direction: column;
+        }
+        .scroll-note {
+          right: 20px;
+          bottom: 25px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .hero {
+          height: max(100svh, 680px);
+          min-height: 680px;
+        }
+        .hero-sticky {
+          position: relative;
+          height: 100%;
+          min-height: inherit;
+          top: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+        section.scrolled-past,
+        section.hero.scrolled-past .hero-sticky {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#home">NOIRÉ<span>.</span></a>
+        <nav class="nav-links" aria-label="เมนูหลัก">
+          <a href="#about">Our Story</a><a href="#menu">Menu</a
+          ><a href="#gallery">Gallery</a><a href="#contact">Visit Us</a>
+        </nav>
+        <a class="nav-cta" href="#contact">FIND YOUR CUP ↗</a>
+      </div>
+    </header>
+    <main>
+      <section class="hero" id="home" aria-label="NOIRÉ Coffee video hero">
+        <div class="hero-sticky">
+          <video
+            class="hero-video"
+            id="heroVideo"
+            playsinline
+            preload="metadata"
+            aria-label="NOIRÉ coffee video"
+          >
+            <source src="hero-scroll.mp4" type="video/mp4" />
+            เบราว์เซอร์ของคุณไม่รองรับวิดีโอ HTML5
+          </video>
+          <div class="hero-shade"></div>
+          <div class="wrap hero-content">
+            <div class="eyebrow">Specialty coffee · Crafted with intention</div>
+            <h1 class="serif">Coffee,<br /><em>slowly.</em></h1>
+            <p>
+              พื้นที่เล็ก ๆ ที่ชวนให้คุณช้าลง ดื่มด่ำกับกาแฟที่ตั้งใจคัดสรร
+              และค้นพบความงดงามในช่วงเวลาธรรมดา
+            </p>
+            <div class="hero-actions">
+              <a class="btn" href="#menu">EXPLORE OUR MENU ↗</a
+              ><a class="btn btn-outline" href="#about">OUR STORY</a>
+            </div>
+          </div>
+          <a class="scroll-note" href="#about" aria-label="เลื่อนลงไปยังเนื้อหาถัดไป">
+            SCROLL TO EXPERIENCE <span class="scroll-line"></span>
+          </a>
+        </div>
+      </section>
+      <section id="about">
+        <div class="wrap about-grid">
+          <div class="about-image reveal">
+            <div class="image-label">EST. 2024 · BANGKOK, THAILAND</div>
+          </div>
+          <div class="about-copy reveal">
+            <div class="eyebrow">01 / A little about us</div>
+            <h3 class="serif">
+              Not just coffee.<br />A moment to <em>yourself.</em>
+            </h3>
+            <p>
+              NOIRÉ เกิดจากความเชื่อว่ากาแฟที่ดีไม่จำเป็นต้องเร่งรีบ
+              เราเลือกเมล็ดกาแฟจากแหล่งปลูกที่ใส่ใจคุณภาพ คั่วอย่างพิถีพิถัน
+              และชงทุกแก้วด้วยความตั้งใจ
+            </p>
+            <p>
+              ภายในร้านโทนสีเข้มอบอุ่น แสงนุ่ม และกลิ่นกาแฟสดใหม่
+              เราอยากให้ทุกการแวะมาที่นี่เป็นช่วงเวลาที่คุณได้พักจากความวุ่นวาย
+              แล้วกลับไปพร้อมพลังดี ๆ
+            </p>
+            <div class="signature">Brewed with intention.</div>
+          </div>
+        </div>
+      </section>
+      <section class="products" id="menu">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">02 / The menu</div>
+              <h2 class="serif">Made for your<br />kind of day.</h2>
+            </div>
+            <p>
+              เมนูซิกเนเจอร์ที่เรียบง่าย แต่ใส่ใจทุกรายละเอียด
+              ตั้งแต่การเลือกเมล็ดไปจนถึงแก้วสุดท้าย
+            </p>
+          </div>
+          <div class="product-grid">
+            <article class="product-card reveal">
+              <div
+                class="product-photo"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?auto=format&fit=crop&w=900&q=85&quot;);
+                "
+              ></div>
+              <div class="product-info">
+                <div class="eyebrow">01 · SIGNATURE</div>
+                <h3>NOIRÉ Latte</h3>
+                <p>
+                  เอสเพรสโซเข้มข้น ผสานนมเนียนนุ่ม
+                  ให้รสช็อกโกแลตและคาราเมลอย่างสมดุล
+                </p>
+                <div class="product-bottom">
+                  <span class="price">฿120</span
+                  ><a
+                    class="text-link order-btn"
+                    href="#contact"
+                    data-item="NOIRÉ Latte"
+                    >Order this ↗</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="product-card reveal">
+              <div
+                class="product-photo"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=900&q=85&quot;);
+                "
+              ></div>
+              <div class="product-info">
+                <div class="eyebrow">02 · SLOW BAR</div>
+                <h3>Velvet Pour Over</h3>
+                <p>
+                  กาแฟดริปจากเมล็ดคัดพิเศษ กลิ่นดอกไม้และผลไม้เบา ๆ พร้อม
+                  aftertaste ที่สะอาด
+                </p>
+                <div class="product-bottom">
+                  <span class="price">฿150</span
+                  ><a
+                    class="text-link order-btn"
+                    href="#contact"
+                    data-item="Velvet Pour Over"
+                    >Order this ↗</a
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="product-card reveal">
+              <div
+                class="product-photo"
+                style="
+                  background-image: url(&quot;https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=900&q=85&quot;);
+                "
+              ></div>
+              <div class="product-info">
+                <div class="eyebrow">03 · HOUSE SPECIAL</div>
+                <h3>Midnight Mocha</h3>
+                <p>
+                  โกโก้คุณภาพดีและเอสเพรสโซเข้มลึก
+                  หอมหวานพอดีสำหรับวันที่ต้องการรางวัลเล็ก ๆ
+                </p>
+                <div class="product-bottom">
+                  <span class="price">฿135</span
+                  ><a
+                    class="text-link order-btn"
+                    href="#contact"
+                    data-item="Midnight Mocha"
+                    >Order this ↗</a
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section id="highlights">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">03 / The NOIRÉ difference</div>
+              <h2 class="serif">The details<br />make the cup.</h2>
+            </div>
+            <p>
+              ความพิเศษไม่ได้อยู่ที่กาแฟเพียงอย่างเดียว
+              แต่อยู่ในทุกขั้นตอนที่ทำให้แก้วหนึ่งแก้วมีความหมาย
+            </p>
+          </div>
+          <div class="highlights">
+            <div class="highlight reveal">
+              <div class="highlight-num">01 — SOURCED WITH CARE</div>
+              <h3 class="serif">Thoughtful beans</h3>
+              <p>
+                เลือกเมล็ดจากแหล่งปลูกที่มีเอกลักษณ์
+                พร้อมบอกเล่าเรื่องราวและรสชาติของแต่ละแหล่งอย่างตรงไปตรงมา
+              </p>
+            </div>
+            <div class="highlight reveal">
+              <div class="highlight-num">02 — BREWED TO ORDER</div>
+              <h3 class="serif">Craft over speed</h3>
+              <p>
+                ชงสดตามออเดอร์ ปรับสัดส่วนอย่างใส่ใจ
+                เพื่อดึงรสชาติที่ดีที่สุดของเมล็ดกาแฟแต่ละชนิด
+              </p>
+            </div>
+            <div class="highlight reveal">
+              <div class="highlight-num">03 — A SPACE TO PAUSE</div>
+              <h3 class="serif">Quiet comfort</h3>
+              <p>
+                บรรยากาศเรียบหรู โทนเข้มอบอุ่น เหมาะกับการอ่านหนังสือ ทำงาน
+                หรือใช้เวลากับตัวเอง
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="gallery" id="gallery">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">04 / A visual diary</div>
+              <h2 class="serif">Little moments,<br />rich memories.</h2>
+            </div>
+            <p>
+              จากเสียงบดเมล็ดกาแฟในตอนเช้า ไปจนถึงแสงบ่ายที่ตกกระทบแก้วใบโปรด —
+              นี่คือโลกใบเล็กของเรา
+            </p>
+          </div>
+          <div class="gallery-grid reveal">
+            <div
+              class="gallery-item"
+              style="
+                background-image: url(&quot;https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1100&q=85&quot;);
+              "
+            >
+              <div class="gallery-caption">The morning ritual</div>
+            </div>
+            <div
+              class="gallery-item"
+              style="
+                background-image: url(&quot;https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=85&quot;);
+              "
+            >
+              <div class="gallery-caption">Freshly roasted</div>
+            </div>
+            <div
+              class="gallery-item"
+              style="
+                background-image: url(&quot;https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=85&quot;);
+              "
+            >
+              <div class="gallery-caption">Our quiet corner</div>
+            </div>
+            <div
+              class="gallery-item"
+              style="
+                background-image: url(&quot;https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1300&q=85&quot;);
+              "
+            >
+              <div class="gallery-caption">Stay a little longer</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="contact" id="contact">
+        <div class="wrap contact-inner reveal">
+          <div class="eyebrow">05 / Your table is waiting</div>
+          <h2 class="serif">
+            Meet me over<br /><em style="color: var(--accent)">coffee.</em>
+          </h2>
+          <p>
+            แวะมาทักทาย เลือกเมนูแก้วโปรด หรือสอบถามรายละเอียดเพิ่มเติม
+            เรารอเสิร์ฟช่วงเวลาดี ๆ ให้คุณอยู่
+          </p>
+          <div class="hero-actions" style="justify-content: center">
+            <a
+              class="btn"
+              href="https://www.google.com/maps/search/?api=1&query=coffee+shop+Bangkok"
+              target="_blank"
+              rel="noopener"
+              >GET DIRECTIONS ↗</a
+            ><a
+              class="btn btn-outline"
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener"
+              >FOLLOW OUR JOURNEY ↗</a
+            >
+          </div>
+          <div class="contact-details">
+            <span>⌖ Bangkok, Thailand</span><span>◷ Daily · 08:00–18:00</span
+            ><span>✉ hello@noire.coffee</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="wrap footer-inner">
+        <span>© 2026 NOIRÉ COFFEE — CONCEPT LANDING PAGE</span
+        ><span>CRAFTED SLOWLY, SERVED WARMLY.</span>
+      </div>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const hero = document.querySelector(".hero");
+      const heroSticky = hero.querySelector(".hero-sticky");
+      const heroVideo = document.getElementById("heroVideo");
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      const allSections = document.querySelectorAll("main > section");
+      let videoFrame;
+      function syncHeroVideo() {
+        if (
+          reduceMotion.matches ||
+          !Number.isFinite(heroVideo.duration) ||
+          heroVideo.duration === 0
+        )
+          return;
+        const scrollRange = hero.offsetHeight - heroSticky.offsetHeight;
+        const progress = Math.min(
+          1,
+          Math.max(0, -hero.getBoundingClientRect().top / scrollRange),
+        );
+        const targetTime = progress * heroVideo.duration;
+        if (Math.abs(heroVideo.currentTime - targetTime) > 1 / 60)
+          heroVideo.currentTime = targetTime;
+      }
+      function syncSectionFade() {
+        if (reduceMotion.matches) return;
+        const threshold = window.innerHeight * 0.28;
+        allSections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.bottom <= threshold) {
+            section.classList.add("scrolled-past");
+          } else {
+            section.classList.remove("scrolled-past");
+          }
+        });
+      }
+      function syncPageScroll() {
+        videoFrame = undefined;
+        syncHeroVideo();
+        syncSectionFade();
+      }
+      function requestScrollSync() {
+        if (videoFrame === undefined)
+          videoFrame = requestAnimationFrame(syncPageScroll);
+      }
+      heroVideo.pause();
+      heroVideo.muted = true;
+      heroVideo.addEventListener("loadedmetadata", requestScrollSync);
+      window.addEventListener("scroll", requestScrollSync, { passive: true });
+      window.addEventListener("resize", requestScrollSync);
+      reduceMotion.addEventListener("change", () => {
+        heroVideo.controls = reduceMotion.matches;
+        if (reduceMotion.matches) {
+          allSections.forEach((s) => s.classList.remove("scrolled-past"));
+          stopCoast();
+        }
+        requestScrollSync();
+      });
+      heroVideo.controls = reduceMotion.matches;
+      requestScrollSync();
+
+      // Hero inertial coasting (continues scrolling for ~1.5s after user stops)
+      const COAST_DURATION = 500; // 1.5s momentum delay before stopping
+      let isCoasting = false;
+      let coastVelocity = 0;
+      let coastStartTime = 0;
+      let coastStartVelocity = 0;
+      let lastFrameTime = performance.now();
+      let coastRafId = null;
+
+      function getHeroScrollRange() {
+        return Math.max(0, hero.offsetHeight - heroSticky.offsetHeight);
+      }
+
+      function stopCoast() {
+        isCoasting = false;
+        coastVelocity = 0;
+        if (coastRafId) {
+          cancelAnimationFrame(coastRafId);
+          coastRafId = null;
+        }
+      }
+
+      function stepCoast(now) {
+        coastRafId = null;
+        if (!isCoasting) return;
+
+        const dt = Math.min((now - lastFrameTime) / 1000, 0.08);
+        lastFrameTime = now;
+
+        const elapsed = now - coastStartTime;
+        if (elapsed >= COAST_DURATION) {
+          stopCoast();
+          return;
+        }
+
+        // Smooth quadratic ease-out decay over 1.5 seconds
+        const progress = elapsed / COAST_DURATION;
+        const decayFactor = Math.pow(1 - progress, 1.6);
+        const currentSpeed = coastStartVelocity * decayFactor;
+
+        const dy = currentSpeed * dt;
+        const currentY = window.scrollY;
+        const maxScroll =
+          document.documentElement.scrollHeight - window.innerHeight;
+
+        if (
+          (currentSpeed < 0 && currentY <= 0) ||
+          (currentSpeed > 0 && currentY >= maxScroll)
+        ) {
+          stopCoast();
+          return;
+        }
+
+        const targetY = Math.max(0, Math.min(maxScroll, currentY + dy));
+        window.scrollTo({
+          top: targetY,
+          behavior: "instant",
+        });
+
+        syncHeroVideo();
+        syncSectionFade();
+
+        coastRafId = requestAnimationFrame(stepCoast);
+      }
+
+      function onWheel(e) {
+        if (reduceMotion.matches) return;
+
+        const heroLimit = getHeroScrollRange();
+        const currentY = window.scrollY;
+
+        const inHero = currentY <= heroLimit;
+        const enteringHero = currentY <= heroLimit + 50 && e.deltaY < 0;
+
+        if (!inHero && !enteringHero && !isCoasting) {
+          return;
+        }
+
+        if (currentY <= 0 && e.deltaY < 0) return;
+        const maxScroll =
+          document.documentElement.scrollHeight - window.innerHeight;
+        if (currentY >= maxScroll && e.deltaY > 0) return;
+
+        e.preventDefault();
+
+        let delta = e.deltaY;
+        if (e.deltaMode === 1) delta *= 35;
+        else if (e.deltaMode === 2) delta *= window.innerHeight;
+
+        const now = performance.now();
+        const impulseMultiplier = 0.4;
+        const impulse = delta * impulseMultiplier;
+
+        if (isCoasting) {
+          if (Math.sign(impulse) === Math.sign(coastVelocity)) {
+            coastVelocity += impulse;
+          } else {
+            coastVelocity = impulse;
+          }
+        } else {
+          coastVelocity = impulse;
+        }
+
+        const maxVelocity = 2800;
+        coastVelocity = Math.max(
+          -maxVelocity,
+          Math.min(maxVelocity, coastVelocity),
+        );
+
+        coastStartVelocity = coastVelocity;
+        coastStartTime = now;
+        isCoasting = true;
+
+        if (!coastRafId) {
+          lastFrameTime = now;
+          coastRafId = requestAnimationFrame(stepCoast);
+        }
+      }
+
+      window.addEventListener("wheel", onWheel, { passive: false });
+
+      // Touch handling for mobile
+      let touchLastY = 0;
+      let touchLastTime = 0;
+      let touchSpeed = 0;
+
+      window.addEventListener(
+        "touchstart",
+        (e) => {
+          if (e.touches.length === 1) {
+            touchLastY = e.touches[0].clientY;
+            touchLastTime = performance.now();
+            touchSpeed = 0;
+            stopCoast();
+          }
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          if (e.touches.length === 1) {
+            const now = performance.now();
+            const currentY = e.touches[0].clientY;
+            const dt = Math.max((now - touchLastTime) / 1000, 0.008);
+            const dy = touchLastY - currentY;
+            touchSpeed = dy / dt;
+            touchLastY = currentY;
+            touchLastTime = now;
+          }
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "touchend",
+        () => {
+          if (reduceMotion.matches) return;
+          const heroLimit = getHeroScrollRange();
+          if (window.scrollY <= heroLimit && Math.abs(touchSpeed) > 50) {
+            coastVelocity = Math.max(-2500, Math.min(2500, touchSpeed * 0.7));
+            coastStartVelocity = coastVelocity;
+            coastStartTime = performance.now();
+            isCoasting = true;
+            lastFrameTime = coastStartTime;
+            if (!coastRafId) {
+              coastRafId = requestAnimationFrame(stepCoast);
+            }
+          }
+        },
+        { passive: true },
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          }),
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+      const toast = document.getElementById("toast");
+      let toastTimer;
+      document.querySelectorAll(".order-btn").forEach((link) =>
+        link.addEventListener("click", () => {
+          toast.textContent =
+            "เลือก " +
+            link.dataset.item +
+            " แล้ว — ติดต่อร้านเพื่อยืนยันออเดอร์";
+          toast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+        }),
+      );
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          stopCoast();
+          const targetId = this.getAttribute("href");
+          if (!targetId || targetId === "#") return;
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+              behavior: reduceMotion.matches ? "auto" : "smooth",
+            });
+            if (history.pushState) {
+              history.pushState(null, "", targetId);
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
